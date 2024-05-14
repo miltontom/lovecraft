@@ -3,6 +3,7 @@ from os.path import join
 import os
 import shutil
 from zipfile import ZipFile
+from sys import exit
 
 import click
 
