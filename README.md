@@ -1,6 +1,6 @@
 # LoveCraft
 
-A simple CLI tool to package games made with LÖVE.
+A simple CLI tool to package games made with LÖVE on Windows.
 
 ## Features
 * Package games with just one command
@@ -44,4 +44,4 @@ icon = C:\Users\John Doe\Love\games\myawesomegame\assets\icon\icon.ico
 * There are fallback values for, 
     * `name` - Project folder name
     * `destination` - Project folder 
-* The `icon` field is optional.
+* The `icon` is optional.
