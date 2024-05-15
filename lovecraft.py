@@ -8,6 +8,7 @@ from sys import exit
 import click
 
 
+FILE_NOT_FOUND_ERROR = 2
 CONFIG_FILE_NAME = 'conf.ini'
 EMPTY_STRING = ''
 
@@ -88,19 +89,22 @@ def package_game(config):
 
 
 @click.command()
-@click.argument('path', default='.')
-def main(path):
+@click.argument('src', default='.')
+def main(src):
+    '''
+    Packages SRC project directory for distribution.
+    '''
     try:
-        if CONFIG_FILE_NAME not in os.listdir(path): 
+        if CONFIG_FILE_NAME not in os.listdir(src): 
             print('No config file found...')
-            exit(1)
+            exit(FILE_NOT_FOUND_ERROR)
 
         config = configparser.ConfigParser()
-        config.read(join(path, CONFIG_FILE_NAME))
+        config.read(join(src, CONFIG_FILE_NAME))
 
         configurations = {}
         configurations['name'] = config.get('Game', 'name').strip().lower()
-        configurations['source'] = path
+        configurations['source'] = src
         configurations['destination'] = join(
             config.get('Game', 'destination_path'), config.get('Game', 'name')
         )
@@ -108,7 +112,7 @@ def main(path):
 
         package_game(configurations)
 
-        print(f'Package successfully created at "{configurations['destination']}"')
+        print(f'Package successfully created at \'{configurations['destination']}\'')
     except FileNotFoundError as e:
         print(e)
 
