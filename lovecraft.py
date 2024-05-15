@@ -102,22 +102,22 @@ def main(src):
             print('No config file found...')
             exit(FILE_NOT_FOUND_ERROR)
 
-        config = configparser.ConfigParser()
-        config.read(join(src, CONFIG_FILE_NAME))
+        parser = configparser.ConfigParser()
+        parser.read(join(src, CONFIG_FILE_NAME))
 
-        configurations = {}
-        configurations['source'] = src
-        configurations['name'] = config.get('Game', 'name',
+        config = {}
+        config['source'] = src
+        config['name'] = parser.get('Game', 'name',
                                             fallback=os.path.basename(src)).strip().lower()
-        configurations['destination'] = join(
-            config.get('Game', 'destination', fallback=os.path.basename('.')),
-            configurations['name']
+        config['destination'] = join(
+            parser.get('Game', 'destination', fallback=os.path.basename('.')),
+            config['name']
         )
-        configurations['icon'] = config.get('Game', 'icon').strip()
+        config['icon'] = parser.get('Game', 'icon').strip()
 
-        package_game(configurations)
+        package_game(config)
 
-        print(f'Package successfully created at \'{configurations['destination']}\'')
+        print(f'Package successfully created at \'{config['destination']}\'')
     except FileNotFoundError as e:
         print(e)
 
