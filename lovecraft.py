@@ -12,6 +12,7 @@ FILE_NOT_FOUND_ERROR = 2
 CONFIG_FILE_NAME = 'conf.ini'
 EMPTY_STRING = ''
 
+
 def set_icon(exe, icon):
     if icon == EMPTY_STRING:
         return
