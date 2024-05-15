@@ -15,6 +15,10 @@ A simple CLI tool to package games made with LÖVE.
 
 **NOTE**: *Look inside the demo folder for a sample game project*
 
+## Installation
+1. [Download](https://github.com/miltontom/lovecraft/releases) the binary.
+2. Add the path to the binary location to the `PATH` environment variable.
+
 ## Usage
 ```powershell
 lovecraft path\to\project\directory
