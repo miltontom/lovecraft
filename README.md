@@ -20,19 +20,28 @@ A simple CLI tool to package games made with LÖVE.
 2. Add the path to the binary location to the `PATH` environment variable.
 
 ## Usage
-```powershell
-lovecraft path\to\project\directory
 ```
-Running `lovecraft` with no path also works when you're in the project directory or by providing `.` as an argument.
+Usage: lovecraft.py [OPTIONS] [SRC]
+
+  Packages LÖVE game for distribution.
+
+  SRC - Path to project directory
+
+Options:
+  --help  Show this message and exit.
+```
+Running `lovecraft` with no path provided also works when you're in the project directory or by providing `.` as an argument.
 
 ## Config
 ```ini
 ; Sample conf.ini file
 [Game]
 name = myawesomegame
-destination_path = C:\Users\John Doe
+destination = C:\Users\John Doe
 icon = C:\Users\John Doe\Love\games\myawesomegame\assets\icon\icon.ico
 ```
-* The `name` and `icon` can be kept with a blank assignment
-* Mention the absolute paths for the `destination_path` and `icon` fields
-* Please use the keys as it is
+* Certain assignments can be omitted, either comment or remove them.
+* There are fallback values for, 
+    * `name` - Project folder name
+    * `destination` - Project folder 
+* The `icon` field is optional.
