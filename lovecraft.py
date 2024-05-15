@@ -10,17 +10,19 @@ import click
 
 FILE_NOT_FOUND_ERROR = 2
 CONFIG_FILE_NAME = 'conf.ini'
-EMPTY_STRING = ''
 
 
 def set_icon(exe, icon):
-    if icon == EMPTY_STRING:
+    if icon is None:
         return
-
+    
+    if not os.path.exists(icon) or not icon.endswith('.ico'):
+        print('Error: The icon file does not exist or is not an .ico file.')
+        return
+    
     rh_exe = shutil.which('ResourceHacker')
-
     if not rh_exe:
-        print('Couldn\'t set the icon.')
+        print('Error: ResourceHacker.exe not found in PATH')
         return
 
     # ICONGROUP - Resource type
@@ -66,7 +68,7 @@ def package_game(config):
     game_name = config['name']
     game_source = config['source']
     game_destination = config['destination']
-    game_icon = config['icon'] if config['icon'] != EMPTY_STRING else EMPTY_STRING
+    game_icon = config['icon']
 
     if not os.path.exists(game_destination):
         os.mkdir(game_destination)
@@ -113,7 +115,7 @@ def main(src):
             parser.get('Game', 'destination', fallback=os.path.basename(src)),
             config['name']
         )
-        config['icon'] = parser.get('Game', 'icon').strip()
+        config['icon'] = parser.get('Game', 'icon') if parser.has_option('Game', 'icon') else None
 
         package_game(config)
 
