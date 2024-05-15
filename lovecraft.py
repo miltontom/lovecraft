@@ -110,7 +110,7 @@ def main(src):
         config['name'] = parser.get('Game', 'name',
                                             fallback=os.path.basename(src)).strip().lower()
         config['destination'] = join(
-            parser.get('Game', 'destination', fallback=os.path.basename('.')),
+            parser.get('Game', 'destination', fallback=os.path.basename(src)),
             config['name']
         )
         config['icon'] = parser.get('Game', 'icon').strip()
