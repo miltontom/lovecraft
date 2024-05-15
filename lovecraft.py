@@ -120,6 +120,8 @@ def main(src):
         print(f'Package successfully created at \'{config['destination']}\'')
     except FileNotFoundError as e:
         print(e)
+    except Exception as e:
+        print('An error occured.')
 
 
 if __name__ == "__main__":
