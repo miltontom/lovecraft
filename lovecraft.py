@@ -108,7 +108,7 @@ def main(src):
         configurations['name'] = config.get('Game', 'name',
                                             fallback=os.path.basename(src)).strip().lower()
         configurations['destination'] = join(
-            config.get('Game', 'destination_path', fallback=os.path.basename('.')),
+            config.get('Game', 'destination', fallback=os.path.basename('.')),
             configurations['name']
         )
         configurations['icon'] = config.get('Game', 'icon').strip()
