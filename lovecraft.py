@@ -104,10 +104,12 @@ def main(src):
         config.read(join(src, CONFIG_FILE_NAME))
 
         configurations = {}
-        configurations['name'] = config.get('Game', 'name').strip().lower()
         configurations['source'] = src
+        configurations['name'] = config.get('Game', 'name',
+                                            fallback=os.path.basename(src)).strip().lower()
         configurations['destination'] = join(
-            config.get('Game', 'destination_path'), config.get('Game', 'name')
+            config.get('Game', 'destination_path', fallback=os.path.basename('.')),
+            configurations['name']
         )
         configurations['icon'] = config.get('Game', 'icon').strip()
 
