@@ -21,7 +21,7 @@ A simple CLI tool to package games made with LÖVE on Windows.
 
 ## Usage
 ```
-Usage: lovecraft.py [OPTIONS] [SRC]
+Usage: lovecraft [OPTIONS] [SRC]
 
   Packages LÖVE game for distribution.
 
@@ -42,6 +42,6 @@ icon = C:\Users\John Doe\Love\games\myawesomegame\assets\icon\icon.ico
 ```
 * Certain assignments can be omitted, either comment or remove them.
 * There are fallback values for, 
-    * `name` - Project folder name
-    * `destination` - Project folder 
+    * `name` - Project directory name
+    * `destination` - Project directory 
 * The `icon` is optional.
