@@ -93,7 +93,9 @@ def package_game(config):
 @click.argument('src', default='.')
 def main(src):
     '''
-    Packages SRC project directory for distribution.
+    Packages LÖVE game for distribution.
+
+    SRC - Path to project directory
     '''
     try:
         if CONFIG_FILE_NAME not in os.listdir(src): 
