@@ -10,6 +10,7 @@ import click
 
 FILE_NOT_FOUND_ERROR = 2
 CONFIG_FILE_NAME = 'conf.ini'
+EXCLUSIONS_FILE_NAME = '.exclude'
 
 
 def set_icon(exe, icon):
@@ -35,8 +36,8 @@ def set_icon(exe, icon):
 
 def archive(game_source, game_destination, game_name):
     exclude_list = []
-    if '.avoid' in os.listdir(game_source):
-        with open(join(game_source, '.avoid')) as f:
+    if EXCLUSIONS_FILE_NAME in os.listdir(game_source):
+        with open(join(game_source, EXCLUSIONS_FILE_NAME)) as f:
             lines = f.readlines()
             for line in lines:
                 pattern = os.path.join(game_source, line.rstrip())
@@ -56,7 +57,7 @@ def zip_file(folder_path, output_path, exclude=[]):
             for dir_to_exclude in dirs_to_exclude:
                 dirs.remove(dir_to_exclude)
 
-            files = [f for f in files if not f.startswith('.avoid') and f != CONFIG_FILE_NAME]
+            files = [f for f in files if not f.startswith(EXCLUSIONS_FILE_NAME) and f != CONFIG_FILE_NAME]
                 
             for file in files:
                 file_path = os.path.join(root, file)
