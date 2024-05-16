@@ -37,7 +37,7 @@ def set_icon(exe, icon):
 def zip_file(folder_path, output_path, exclude=[]):
     with ZipFile(output_path, 'w') as zipf:
         for root, dirs, files in os.walk(folder_path):
-            dirs_to_exclude = [d for d in dirs if os.path.join(root, d) in exclude]
+            dirs_to_exclude = [d for d in dirs if join(root, d) in exclude]
             for dir_to_exclude in dirs_to_exclude:
                 dirs.remove(dir_to_exclude)
 
@@ -103,7 +103,7 @@ def parse_config(src):
 
     name = parser.get('Game', 'name', fallback=os.path.basename(src)).strip().lower()
     destination = join(
-        parser.get('Game', 'destination', fallback=os.path.basename(src)),
+        parser.get('Game', 'destination', fallback='.'),
         name).replace('/', '\\')
     icon = (parser.get('Game', 'icon').replace('/', '\\')
             if parser.has_option('Game', 'icon') else None)
@@ -127,7 +127,7 @@ def main(src):
     try:
         config = parse_config(src)
         package_game(config)
-        print(f'\nPackage successfully created at \'{config['destination']}\'')
+        print(f'\nPackage successfully created at \'{os.path.abspath(config['destination'])}\'')
     except FileNotFoundError as e:
         print(e)
     except Exception as e:
