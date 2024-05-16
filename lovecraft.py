@@ -91,6 +91,29 @@ def package_game(config):
     set_icon(exe_name, game_icon)
 
 
+def parse_config(src):
+    if CONFIG_FILE_NAME not in os.listdir(src): 
+        print('No config file found...')
+        exit(FILE_NOT_FOUND_ERROR)
+
+    parser = configparser.ConfigParser()
+    parser.read(join(src, CONFIG_FILE_NAME))
+
+    name = parser.get('Game', 'name', fallback=os.path.basename(src)).strip().lower()
+    destination = join(
+        parser.get('Game', 'destination', fallback=os.path.basename(src)),
+        name).replace('/', '\\')
+    icon = (parser.get('Game', 'icon').replace('/', '\\')
+            if parser.has_option('Game', 'icon') else None)
+
+    return {
+        'source': src,
+        'name': name,
+        'destination': destination,
+        'icon': icon
+    }
+
+
 @click.command()
 @click.argument('src', default='.')
 def main(src):
@@ -100,26 +123,9 @@ def main(src):
     SRC - Path to project directory
     '''
     try:
-        if CONFIG_FILE_NAME not in os.listdir(src): 
-            print('No config file found...')
-            exit(FILE_NOT_FOUND_ERROR)
-
-        parser = configparser.ConfigParser()
-        parser.read(join(src, CONFIG_FILE_NAME))
-
-        config = {}
-        config['source'] = src
-        config['name'] = parser.get('Game', 'name',
-                                            fallback=os.path.basename(src)).strip().lower()
-        config['destination'] = join(
-            parser.get('Game', 'destination', fallback=os.path.basename(src)),
-            config['name']
-        ).replace('/', '\\')
-        config['icon'] = (parser.get('Game', 'icon').replace('/', '\\')
-                          if parser.has_option('Game', 'icon') else None)
-
+        config = parse_config(src)
         package_game(config)
-        print(f'Package successfully created at \'{config['destination']}\'')
+        print(f'\nPackage successfully created at \'{config['destination']}\'')
     except FileNotFoundError as e:
         print(e)
     except Exception as e:
