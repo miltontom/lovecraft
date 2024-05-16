@@ -123,6 +123,7 @@ def parse_config(src):
 
 
 @click.command()
+@click.version_option('0.0.0')
 @click.argument('src', default='.')
 def main(src):
     '''
