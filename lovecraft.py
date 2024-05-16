@@ -34,22 +34,6 @@ def set_icon(exe, icon):
     ))
 
 
-def archive(game_source, game_destination, game_name):
-    exclude_list = []
-    if EXCLUSIONS_FILE_NAME in os.listdir(game_source):
-        with open(join(game_source, EXCLUSIONS_FILE_NAME)) as f:
-            lines = f.readlines()
-            for line in lines:
-                pattern = os.path.join(game_source, line.rstrip())
-                exclude_list.append(pattern)
-
-    zip_file_name_old = join(game_destination, game_name + '.zip')
-    zip_file_name_new = join(game_destination, game_name + '.love')
-    zip_file(game_source, zip_file_name_old, exclude_list)
-
-    return zip_file_name_old, zip_file_name_new
-
-
 def zip_file(folder_path, output_path, exclude=[]):
     with ZipFile(output_path, 'w') as zipf:
         for root, dirs, files in os.walk(folder_path):
@@ -65,6 +49,21 @@ def zip_file(folder_path, output_path, exclude=[]):
                     zipf.write(file_path, os.path.relpath(file_path, folder_path))
 
 
+def parse_exclusions(game_source):
+    excluded_list = []
+
+    if EXCLUSIONS_FILE_NAME not in os.listdir(game_source):
+        return excluded_list
+
+    with open(join(game_source, EXCLUSIONS_FILE_NAME)) as f:
+        lines = f.readlines()
+        for line in lines:
+            pattern = join(game_source, line.rstrip())
+            excluded_list.append(pattern)
+
+    return excluded_list
+
+
 def package_game(config):
     game_name = config['name']
     game_source = config['source']
@@ -74,7 +73,9 @@ def package_game(config):
     if not os.path.exists(game_destination):
         os.mkdir(game_destination)
 
-    zip_file_name_old, zip_file_name_new = archive(game_source, game_destination, game_name)
+    zip_file_name_old = join(game_destination, game_name + '.zip')
+    zip_file_name_new = join(game_destination, game_name + '.love')
+    zip_file(game_source, zip_file_name_old, parse_exclusions(game_source))
     os.rename(zip_file_name_old, zip_file_name_new)
 
     love_exe = shutil.which('love')
