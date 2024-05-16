@@ -8,6 +8,7 @@ from sys import exit
 import click
 
 
+VERSION = '0.1.0'
 FILE_NOT_FOUND_ERROR = 2
 CONFIG_FILE_NAME = 'conf.ini'
 EXCLUSIONS_FILE_NAME = '.exclude'
@@ -123,7 +124,7 @@ def parse_config(src):
 
 
 @click.command()
-@click.version_option('0.0.0')
+@click.version_option(VERSION)
 @click.argument('src', default='.')
 def main(src):
     '''
