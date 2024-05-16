@@ -70,6 +70,11 @@ def package_game(config):
     game_destination = config['destination']
     game_icon = config['icon']
 
+    love_exe = shutil.which('love')
+    if not love_exe:
+        print('Error: love.exe is not in PATH')
+        return 1
+
     if not os.path.exists(game_destination):
         os.mkdir(game_destination)
 
@@ -78,7 +83,6 @@ def package_game(config):
     zip_file(game_source, zip_file_name_old, parse_exclusions(game_source))
     os.rename(zip_file_name_old, zip_file_name_new)
 
-    love_exe = shutil.which('love')
     exe_name = join(game_destination, game_name + '.exe')
     os.system(f'copy /b "{love_exe}" + {zip_file_name_new} {exe_name} > NUL')
     os.remove(zip_file_name_new)
@@ -91,6 +95,8 @@ def package_game(config):
     shutil.copy(join(love_path, 'license.txt'), game_destination)
 
     set_icon(exe_name, game_icon)
+
+    return 0
 
 
 def parse_config(src):
@@ -126,12 +132,14 @@ def main(src):
     '''
     try:
         config = parse_config(src)
-        package_game(config)
-        print(f'\nPackage successfully created at \'{os.path.abspath(config['destination'])}\'')
+        exit_status = package_game(config)
+
+        if exit_status == 0:
+            print(f'\nPackage successfully created at \'{os.path.abspath(config['destination'])}\'')
     except FileNotFoundError as e:
         print(e)
     except Exception as e:
-        print('An error occured.')
+        print(e)
 
 
 if __name__ == "__main__":
