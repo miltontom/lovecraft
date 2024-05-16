@@ -12,7 +12,7 @@ A simple CLI tool to package games made with LÖVE on Windows.
 * `conf.ini` file with the necessary [configurations](#config) avaiable in the root of the project directory.
 * Optional `.exclude` file in the root of the project directory with files and folders in relative paths to avoid archiving before packaging the game.
 
-**NOTE**: *Look inside the demo folder for a sample game project*
+**NOTE**: *Look inside the example folder for a sample game project*
 
 ## Installation
 1. [Download](https://github.com/miltontom/lovecraft/releases) the binary.
