@@ -114,11 +114,11 @@ def main(src):
         config['destination'] = join(
             parser.get('Game', 'destination', fallback=os.path.basename(src)),
             config['name']
-        )
-        config['icon'] = parser.get('Game', 'icon') if parser.has_option('Game', 'icon') else None
+        ).replace('/', '\\')
+        config['icon'] = (parser.get('Game', 'icon').replace('/', '\\')
+                          if parser.has_option('Game', 'icon') else None)
 
         package_game(config)
-
         print(f'Package successfully created at \'{config['destination']}\'')
     except FileNotFoundError as e:
         print(e)
