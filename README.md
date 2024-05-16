@@ -20,14 +20,15 @@ A simple CLI tool to package games made with LÖVE on Windows.
 
 ## Usage
 ```
-Usage: lovecraft [OPTIONS] [SRC]
+Usage: lovecraft.exe [OPTIONS] [SRC]
 
-  Packages LÖVE game for distribution.
+  Packages LÖVE game for distribution. 
 
-  SRC - Path to project directory
-
+  SRC - Path to project directory                                               
+  
 Options:
-  --help  Show this message and exit.
+  --version  Show the version and exit.
+  --help     Show this message and exit.
 ```
 Running `lovecraft` with no path provided also works when you're in the project directory or by providing `.` as an argument.
 
