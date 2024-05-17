@@ -9,9 +9,10 @@ import click
 
 
 VERSION = '0.1.0'
-FILE_NOT_FOUND_ERROR = 2
 CONFIG_FILE_NAME = 'conf.ini'
 EXCLUSIONS_FILE_NAME = '.exclude'
+EXIT_SUCCESS = 0
+EXIT_FAILURE = 1
 
 
 def set_icon(exe, icon):
@@ -19,7 +20,7 @@ def set_icon(exe, icon):
         return
     
     if not os.path.exists(icon) or not icon.endswith('.ico'):
-        print('Error: The icon file does not exist or is not an .ico file.')
+        print('Error: The icon file does not exist or is not an .ico file')
         return
     
     rh_exe = shutil.which('ResourceHacker')
@@ -74,7 +75,7 @@ def package_game(config):
     love_exe = shutil.which('love')
     if not love_exe:
         print('Error: love.exe is not in PATH')
-        return 1
+        return EXIT_FAILURE
 
     if not os.path.exists(game_destination):
         os.mkdir(game_destination)
@@ -97,13 +98,12 @@ def package_game(config):
 
     set_icon(exe_name, game_icon)
 
-    return 0
+    return EXIT_SUCCESS
 
 
 def parse_config(src):
     if CONFIG_FILE_NAME not in os.listdir(src): 
-        print('No config file found...')
-        exit(FILE_NOT_FOUND_ERROR)
+        print('No config file found... Using fallback values')
 
     parser = configparser.ConfigParser()
     parser.read(join(src, CONFIG_FILE_NAME))
@@ -123,6 +123,10 @@ def parse_config(src):
     }
 
 
+def is_love2d_project(src):
+    return 'main.lua' in os.listdir(src) or 'conf.lua' in os.listdir(src)
+
+
 @click.command()
 @click.version_option(VERSION)
 @click.argument('src', default='.')
@@ -133,10 +137,14 @@ def main(src):
     SRC - Path to project directory
     '''
     try:
+        if not is_love2d_project(src):
+            print('Error: Not a LÖVE game project directory')
+            exit(EXIT_FAILURE)
+        
         config = parse_config(src)
         exit_status = package_game(config)
 
-        if exit_status == 0:
+        if exit_status == EXIT_SUCCESS:
             print(f'\nPackage successfully created at \'{os.path.abspath(config['destination'])}\'')
     except FileNotFoundError as e:
         print(e)
