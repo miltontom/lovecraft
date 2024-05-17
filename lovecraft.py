@@ -137,6 +137,7 @@ def main(src):
     SRC - Path to project directory
     '''
     try:
+        src = os.path.abspath(src)
         if not is_love2d_project(src):
             print('Error: Not a LÖVE game project directory')
             exit(EXIT_FAILURE)
