@@ -5,6 +5,7 @@ A simple CLI tool to package games made with LÖVE on Windows.
 ## Features
 * Package games with just one command
 * Easily add icon to the executable
+* Great tool for consistent packaging
 
 ## Requirements
 * [LÖVE](https://love2d.org/) framework available in `PATH`
