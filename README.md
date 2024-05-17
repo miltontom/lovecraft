@@ -43,5 +43,5 @@ icon = C:\Users\John Doe\Love\games\myawesomegame\assets\icon\icon.ico
 * Certain assignments can be omitted, either comment or remove them.
 * There are fallback values for, 
     * `name` - Project directory name
-    * `destination` - Current working directory
+    * `destination` - Home directory
 * The `icon` is optional.
