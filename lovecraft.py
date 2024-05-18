@@ -122,7 +122,8 @@ def parse_config(src):
 
 
 def is_love2d_project(src):
-    return 'main.lua' in os.listdir(src) or 'conf.lua' in os.listdir(src)
+    files = os.listdir(src)
+    return 'main.lua' in files or 'conf.lua' in files
 
 
 @click.command()
