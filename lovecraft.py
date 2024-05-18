@@ -80,14 +80,12 @@ def package_game(config):
     if not os.path.exists(game_destination):
         os.mkdir(game_destination)
 
-    zip_file_name_old = join(game_destination, game_name + '.zip')
-    zip_file_name_new = join(game_destination, game_name + '.love')
-    zip_file(game_source, zip_file_name_old, parse_exclusions(game_source))
-    os.rename(zip_file_name_old, zip_file_name_new)
+    archive_name = f'{join(game_destination, game_name)}.love'
+    zip_file(game_source, archive_name, parse_exclusions(game_source))
 
-    exe_name = join(game_destination, game_name + '.exe')
-    os.system(f'copy /b "{love_exe}" + {zip_file_name_new} {exe_name} > NUL')
-    os.remove(zip_file_name_new)
+    exe_name = f'{join(game_destination, game_name)}.exe'
+    os.system(f'copy /b "{love_exe}" + {archive_name} {exe_name} > NUL')
+    os.remove(archive_name)
 
     love_path = os.path.dirname(love_exe) # type: ignore
     files = os.listdir(love_path)
