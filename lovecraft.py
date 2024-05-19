@@ -51,8 +51,11 @@ def zip_file(folder_path, output_path, exclude=[]):
                     zipf.write(file_path, os.path.relpath(file_path, folder_path))
 
 
-def parse_exclusions(game_source):
+def parse_exclusions(game_source, game_destination, game_name):
     excluded_list = []
+
+    if game_name in os.listdir(game_source):
+        excluded_list.append(game_destination)
 
     if EXCLUSIONS_FILE_NAME not in os.listdir(game_source):
         return excluded_list
@@ -81,7 +84,8 @@ def package_game(config):
         os.mkdir(game_destination)
 
     archive_name = f'{join(game_destination, game_name)}.love'
-    zip_file(game_source, archive_name, parse_exclusions(game_source))
+    excluded_list = parse_exclusions(game_source, game_destination, game_name)
+    zip_file(game_source, archive_name, excluded_list)
 
     exe_name = f'{join(game_destination, game_name)}.exe'
     os.system(f'copy /b "{love_exe}" + {archive_name} {exe_name} > NUL')
