@@ -5,13 +5,13 @@ A simple CLI tool to package games made with LÖVE on Windows.
 ## Features
 * Package games with just one command
 * Easily add icon to the executable
-* Each project can have it's own LoveCraft config file (`conf.ini`)
+* Each project can have it's own **LoveCraft** config file (`craft.ini`)
 * Great tool for consistent packaging
 
 ## Requirements
 * [LÖVE](https://love2d.org/) framework available in `PATH`
 * [ResourceHacker](https://www.angusj.com/resourcehacker/) available in `PATH` 
-* `conf.ini` file with the necessary [configurations](#config) avaiable in the root of the project directory.
+* `craft.ini` file with the necessary [configurations](#config) avaiable in the root of the project directory.
 * Optional `.exclude` file in the root of the project directory with files and folders in relative paths to avoid archiving before packaging the game.
 
 **NOTE**: *Look inside the example folder for a sample game project*
@@ -36,7 +36,7 @@ Running `lovecraft` with no path provided also works when you're in the project 
 
 ## Config
 ```ini
-; Sample conf.ini file
+; Sample craft.ini file
 [Game]
 name = myawesomegame
 destination = C:\Users\John Doe
