@@ -107,17 +107,16 @@ def parse_config(src):
     parser.read(join(src, CONFIG_FILE_NAME))
 
     name = parser.get('Game', 'name', fallback=os.path.basename(src)).strip().lower()
-    destination = join(
+    destination = (join(
         parser.get('Game', 'destination', fallback=os.getenv('USERPROFILE')),
-        name)
-    icon = (parser.get('Game', 'icon')
-            if parser.has_option('Game', 'icon') else None)
+        name))
+    icon = parser.get('Game', 'icon', fallback=None)
 
     return {
         'source': src,
         'name': name,
         'destination': normpath(destination),
-        'icon': normpath(icon)
+        'icon': normpath(icon) if parser.has_option('Game', 'icon') else icon
     }
 
 
