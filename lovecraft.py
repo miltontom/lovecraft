@@ -106,10 +106,11 @@ def package_game(config):
 def parse_config(src):
     if CONFIG_FILE_NAME not in os.listdir(src): 
         print('No config file found... Using fallback values')
+        src_basename = os.path.basename(src)
         return {
             'source': src,
-            'name': os.path.basename(src),
-            'destination': os.getenv('USERPROFILE'),
+            'name': src_basename,
+            'destination': join(os.getenv('USERPROFILE'), src_basename),
             'icon': None
         }
 
