@@ -1,5 +1,5 @@
 import configparser
-from os.path import join, normpath
+from os.path import join, normpath, isabs
 import os
 import shutil
 from zipfile import ZipFile
@@ -110,13 +110,17 @@ def parse_config(src):
     destination = (join(
         parser.get('Game', 'destination', fallback=os.getenv('USERPROFILE')),
         name))
+    if not isabs(destination):
+        destination = join(src, destination)
     icon = parser.get('Game', 'icon', fallback=None)
+    if icon and not isabs(icon):
+        icon = join(src, icon)
 
     return {
         'source': src,
         'name': name,
         'destination': normpath(destination),
-        'icon': normpath(icon) if parser.has_option('Game', 'icon') else icon
+        'icon': normpath(icon)
     }
 
 
