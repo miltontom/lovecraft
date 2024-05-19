@@ -131,7 +131,7 @@ def parse_config(src):
         'source': src,
         'name': name,
         'destination': normpath(destination),
-        'icon': normpath(icon)
+        'icon': normpath(icon) if icon else icon
     }
 
 
