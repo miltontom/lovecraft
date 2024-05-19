@@ -9,7 +9,7 @@ import click
 
 
 VERSION = '0.1.0'
-CONFIG_FILE_NAME = 'conf.ini'
+CONFIG_FILE_NAME = 'craft.ini'
 EXCLUSIONS_FILE_NAME = '.exclude'
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
