@@ -110,7 +110,7 @@ def parse_config(src):
     parser = configparser.ConfigParser()
     parser.read(join(src, CONFIG_FILE_NAME))
 
-    name = parser.get('Game', 'name', fallback=os.path.basename(src)).strip().lower()
+    name = parser.get('Game', 'name', fallback=os.path.basename(src)).lower()
     destination = (join(
         parser.get('Game', 'destination', fallback=os.getenv('USERPROFILE')),
         name))
