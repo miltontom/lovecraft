@@ -44,8 +44,8 @@ Running `lovecraft` with no path provided also works when you're in the project 
 ; Sample craft.ini file
 [Game]
 name = myawesomegame
-destination = C:\Users\John Doe
-icon = C:\Users\John Doe\Love\games\myawesomegame\assets\icon\icon.ico
+destination = .\
+icon = assets\icon\icon.ico
 ```
 * Certain assignments can be omitted, either comment or remove them.
 * If no config file is found or certain assignments are omitted, there are fallback values:
