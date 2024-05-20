@@ -10,7 +10,7 @@ A simple CLI tool to package games made with LÖVE on Windows.
 ## Features
 * Package games with just one command
 * Easily add icon to the executable
-* Each project can have it's own **LöveCraft** config file (`craft.ini`)
+* Each project can have it's own **LöveCraft** config file
 * Great tool for consistent packaging
 
 ## Requirements
