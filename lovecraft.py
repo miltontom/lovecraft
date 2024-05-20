@@ -43,7 +43,7 @@ def zip_file(folder_path, output_path, exclude=[]):
             for dir_to_exclude in dirs_to_exclude:
                 dirs.remove(dir_to_exclude)
 
-            files = [f for f in files if not f.startswith(EXCLUSIONS_FILE_NAME) and f != CONFIG_FILE_NAME]
+            files = [f for f in files if f != EXCLUSIONS_FILE_NAME and f != CONFIG_FILE_NAME]
                 
             for file in files:
                 file_path = os.path.join(root, file)
