@@ -50,5 +50,5 @@ icon = assets\icon\icon.ico
 * Certain assignments can be omitted, either comment or remove them.
 * If no config file is found or certain assignments are omitted, there are fallback values:
     * `name` - Project directory name
-    * `destination` - Home directory
+    * `destination` - Project directory
 * The `icon` is optional.

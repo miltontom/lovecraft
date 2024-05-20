@@ -110,7 +110,7 @@ def parse_config(src):
         return {
             'source': src,
             'name': src_basename,
-            'destination': join(os.getenv('USERPROFILE'), src_basename),
+            'destination': join(src, src_basename),
             'icon': None
         }
 
@@ -119,7 +119,7 @@ def parse_config(src):
 
     name = parser.get('Game', 'name', fallback=os.path.basename(src)).lower()
     destination = (join(
-        parser.get('Game', 'destination', fallback=os.getenv('USERPROFILE')),
+        parser.get('Game', 'destination', fallback=src),
         name))
     if not isabs(destination):
         destination = join(src, destination)
