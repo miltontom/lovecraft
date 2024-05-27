@@ -152,11 +152,12 @@ def main(src, name, icon, crafts_dir):
 
     SRC - Path to project directory
     '''
+    
+    if crafts_dir:
+        print(CRAFTS_DIR)
+        exit(EXIT_SUCCESS)
+        
     try:
-        if crafts_dir:
-            print(CRAFTS_DIR)
-            exit(EXIT_SUCCESS)
-
         src = os.path.abspath(src)
         if not is_love2d_project(src):
             print('Error: Not a LÖVE game project directory')
