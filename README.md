@@ -29,26 +29,28 @@ A simple CLI tool to package games made with LÖVE on Windows.
 ```
 Usage: lovecraft.exe [OPTIONS] [SRC]
 
-  Packages LÖVE game for distribution. 
+  Packages LÖVE game for distribution.
 
-  SRC - Path to project directory                                               
-  
+  SRC - Path to project directory
+
 Options:
-  --version  Show the version and exit.
-  --help     Show this message and exit.
+  -n, --name TEXT  Name for the game
+  -i, --icon PATH  Path to '.ico' file
+  --crafts-dir     Show the packaging location and exit.
+  --version        Show the version and exit.
+  --help           Show this message and exit.
 ```
-Running `lovecraft` with no path provided also works when you're in the project directory or by providing `.` as an argument.
+* The packaged game is created in the `%USERPROFILE%\crafts` directory.
+* The `--name` and `--icon` are optional and there are fallback values for them if not provided.
+* Running `lovecraft` with no path provided also works when you're in the project directory or by providing `.` as an argument.
 
 ## Config
+* You can create a config for the name and icon in the project's root if you're packaging
+the game consistently.
+* If `--name` or `--icon` is provided, the config file is not considered.
 ```ini
 ; Sample craft.ini file
 [Game]
-name = myawesomegame
-destination = .\
+name = MyAwesomeGame
 icon = assets\icon\icon.ico
 ```
-* Certain assignments can be omitted, either comment or remove them.
-* If no config file is found or certain assignments are omitted, there are fallback values:
-    * `name` - Project directory name
-    * `destination` - Project directory
-* The `icon` is optional.
