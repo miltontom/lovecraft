@@ -4,11 +4,14 @@ import os
 import shutil
 from zipfile import ZipFile
 from sys import exit
+import logging
 
 import click
 
+from format import CustomFormatter
 
-VERSION = '0.2.0'
+
+VERSION = '0.3.0'
 CONFIG_FILE_NAME = 'craft.ini'
 EXCLUSIONS_FILE_NAME = '.exclude'
 CRAFTS_DIR = join(os.getenv('USERPROFILE'), 'crafts')
@@ -16,17 +19,27 @@ EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
 
 
+fmt = '[{levelname:^8}] {message}'
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+stdout_handler = logging.StreamHandler()
+stdout_handler.setLevel(logging.DEBUG)
+stdout_handler.setFormatter(CustomFormatter(fmt))
+logger.addHandler(stdout_handler)
+
+
 def set_icon(exe, icon):
     if icon is None:
+        logger.warning('Icon was not provided')
         return
     
     if not os.path.exists(icon) or not icon.endswith('.ico'):
-        print('Error: The icon file does not exist or is not an .ico file')
+        logger.error('The icon file does not exist or is not an .ico file')
         return
     
     rh_exe = shutil.which('ResourceHacker')
     if not rh_exe:
-        print('Error: ResourceHacker.exe not found in PATH')
+        logger.error('ResourceHacker.exe not found in PATH')
         return
 
     # ICONGROUP - Resource type
@@ -35,6 +48,7 @@ def set_icon(exe, icon):
         f'"{rh_exe}" -open {exe} -action modify -mask ICONGROUP,1, '
         f'-resource {icon} -save {exe} -log NUL'
     ))
+    logger.info('Icon set successfully!')
 
 
 def zip_file(folder_path, output_path, exclude=[]):
@@ -76,7 +90,7 @@ def package_game(config):
 
     love_exe = shutil.which('love')
     if not love_exe:
-        print('Error: love.exe is not in PATH')
+        logger.critical('love.exe not found in PATH')
         return EXIT_FAILURE
 
     if not os.path.exists(CRAFTS_DIR):
@@ -84,7 +98,9 @@ def package_game(config):
     
     # paths are case insensitive in Windows
     if os.path.exists(game_destination):
+        logger.warning('Found duplicate package')
         shutil.rmtree(game_destination)
+        logger.info('Deleted duplicate package')
 
     if not os.path.exists(game_destination):
         os.mkdir(game_destination)
@@ -117,7 +133,7 @@ def parse_config(src):
     }
 
     if CONFIG_FILE_NAME not in os.listdir(src): 
-        print('No config file found... Using fallback values')
+        logger.warning('Using default config')
         return fallbacks
 
     parser = configparser.ConfigParser()
@@ -160,7 +176,7 @@ def main(src, name, icon, crafts_dir):
     try:
         src = os.path.abspath(src)
         if not is_love2d_project(src):
-            print('Error: Not a LÖVE game project directory')
+            logger.critical('Not a LÖVE game project directory')
             exit(EXIT_FAILURE)
 
         if name or icon:
@@ -170,11 +186,11 @@ def main(src, name, icon, crafts_dir):
 
         exit_status = package_game(config)
         if exit_status == EXIT_SUCCESS:
-            print(f'Package successfully created at \'{join(CRAFTS_DIR, config['name'])}\'')
+            logger.info(f'Package created at \'{join(CRAFTS_DIR, config['name'])}\'')
     except FileNotFoundError as e:
-        print(e)
+        logger.error(e)
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 if __name__ == "__main__":
